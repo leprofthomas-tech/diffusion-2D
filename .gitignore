@@ -1,0 +1,12 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Images ou figures générées
+*.png
+*.jpg
+*.jpeg
+*.pdf

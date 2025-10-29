@@ -3,6 +3,13 @@ import matplotlib
 matplotlib.use('Qt5Agg')
 import matplotlib.pyplot as plt
 
+# Ajout pour backend interactif Qt
+try:
+    get_ipython().run_line_magic('matplotlib', 'qt')
+except NameError:
+    # Si le code n'est pas exécuté dans IPython (Spyder/Jupyter), on ignore
+    pass
+
 # ================================
 # 1. Paramètres de la grille
 # ================================
@@ -15,7 +22,7 @@ steps = 201
 # ================================
 # 2. Paramètres de la source
 # ================================
-source_temp = 100       # température de la source
+source_temp = 250       # température de la source
 fix_source = False      # True = température constante, False = initiale seulement
 source_type = 'center'  # 'center' ou 'column'
 column_index = 0        # si 'column', quelle colonne chauffer
@@ -74,15 +81,15 @@ if Nx < 6 and Ny < 6:
 
     # 0) Équation générale de la diffusion (avec terme source)
     general_eq_full = r"$\frac{\partial T}{\partial t} = \alpha \left( \frac{\partial^2 T}{\partial x^2} + \frac{\partial^2 T}{\partial y^2} \right)$" # + \frac{Q}{\rho c_p}
-    ax_eq.text(0, 1.0, general_eq_full, fontsize=12, color='black', ha='left', va='top')
+    ax_eq.text(0, 1.0, general_eq_full, fontsize=16, color='black', ha='left', va='top')
 
     # 1) Équation discrète pour le schéma explicite
     general_eq = r"$\frac{dT_{i,j}}{dt} = \alpha \left(\frac{T_{i+1,j}-2T_{i,j}+T_{i-1,j}}{\Delta x^2} + \frac{T_{i,j+1}-2T_{i,j}+T_{i,j-1}}{\Delta y^2}\right)$"
-    ax_eq.text(0, 0.8, general_eq, fontsize=12, color='black', ha='left', va='top')
+    ax_eq.text(0, 0.8, general_eq, fontsize=16, color='black', ha='left', va='top')
 
     # 2) Équation discrète pour T(i+dt)
     discrete_eq = r"$T_{i,j}^{t+dt} = T_{i,j}^{t} + \alpha \Delta t \left(\frac{T_{i+1,j}^{t}-2T_{i,j}^{t}+T_{i-1,j}^{t}}{\Delta x^2} + \frac{T_{i,j+1}^{t}-2T_{i,j}^{t}+T_{i,j-1}^{t}}{\Delta y^2}\right)$"
-    ax_eq.text(0, 0.6, discrete_eq, fontsize=12, color='black', ha='left', va='top')
+    ax_eq.text(0, 0.6, discrete_eq, fontsize=16, color='black', ha='left', va='top')
 
 # ================================
 # 5. Flux internes (si petite grille)

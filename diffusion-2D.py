@@ -13,7 +13,7 @@ except NameError:
 # ================================
 # 1. Paramètres de la grille
 # ================================
-Nx, Ny = 5, 5       # nombre de cellules en x et y (mettez <6 pour voir les flux)
+Nx, Ny = 15, 15       # nombre de cellules en x et y (mettez <6 pour voir les flux)
 dx = dy = 1.0
 alpha = 0.5
 dt = 0.2
@@ -23,7 +23,7 @@ steps = 201
 # 2. Paramètres de la source
 # ================================
 source_temp = 250       # température de la source
-fix_source = False      # True = température constante, False = initiale seulement
+fix_source = True      # True = température constante, False = initiale seulement
 source_type = 'center'  # 'center' ou 'column'
 column_index = 0        # si 'column', quelle colonne chauffer
 

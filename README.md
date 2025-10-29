@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Diffusion 2D de la chaleur
 
 Auteur : Thomas Elisabettini  
@@ -28,4 +27,3 @@ pip install numpy matplotlib
 =======
 # diffusion-2D
 Simulation pédagogique de la diffusion de la chaleur en 2D avec visualisation des températures, flux et équations discrètes.
->>>>>>> c3997ad5a00baf3c5359f3e8fc830750f3599cbd

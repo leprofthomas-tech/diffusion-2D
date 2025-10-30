@@ -13,16 +13,19 @@ except NameError:
 # ================================
 # 1. Paramètres de la grille
 # ================================
-Nx, Ny = 15, 15       # nombre de cellules en x et y (mettez <6 pour voir les flux)
+N_cell = 5
+Nx, Ny = N_cell, N_cell
 dx = dy = 1.0
-alpha = 0.5
-dt = 0.2
+alpha = 1
+dt = 0.25 
 steps = 201
+CFL = alpha*dt*(1/dx**2 + 1/dy**2) # < 0.5
+print(CFL)
 
 # ================================
 # 2. Paramètres de la source
 # ================================
-source_temp = 250       # température de la source
+source_temp = 40      # température de la source
 fix_source = True      # True = température constante, False = initiale seulement
 source_type = 'center'  # 'center' ou 'column'
 column_index = 0        # si 'column', quelle colonne chauffer
@@ -53,7 +56,7 @@ if Nx < 6 and Ny < 6:
     fig = plt.figure(figsize=(12,6))
 
     # Axes pour la grille (décalée à gauche)
-    ax = fig.add_axes([0.02, 0.1, 0.55, 0.8])
+    ax = fig.add_axes([0.05, 0.1, 0.55, 0.8])
 
 else:
     fig, ax = plt.subplots(figsize=(6,6))
@@ -61,7 +64,7 @@ else:
 im = ax.imshow(T0, cmap='hot', origin='lower', vmin=0, vmax=100)
 cbar = plt.colorbar(im, ax=ax)
 cbar.set_label("Température")
-ax.set_title("Diffusion 2D")
+ax.set_title("Diffusion 2D - schéma explicite (Forward Euler)")
 
 # Texte pour le pas
 time_text = ax.text(0.02, 1.02, '', transform=ax.transAxes,
@@ -84,7 +87,7 @@ if Nx < 6 and Ny < 6:
     ax_eq.text(0, 1.0, general_eq_full, fontsize=16, color='black', ha='left', va='top')
 
     # 1) Équation discrète pour le schéma explicite
-    general_eq = r"$\frac{dT_{i,j}}{dt} = \alpha \left(\frac{T_{i+1,j}-2T_{i,j}+T_{i-1,j}}{\Delta x^2} + \frac{T_{i,j+1}-2T_{i,j}+T_{i,j-1}}{\Delta y^2}\right)$"
+    general_eq = r"$\frac{T_{i,j}^{t+dt} - T_{i,j}^{t}}{\Delta t} = \alpha \left(\frac{T_{i+1,j}-2T_{i,j}+T_{i-1,j}}{\Delta x^2} + \frac{T_{i,j+1}-2T_{i,j}+T_{i,j-1}}{\Delta y^2}\right)$"
     ax_eq.text(0, 0.8, general_eq, fontsize=16, color='black', ha='left', va='top')
 
     # 2) Équation discrète pour T(i+dt)

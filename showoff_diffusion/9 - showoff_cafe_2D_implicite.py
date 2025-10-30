@@ -15,18 +15,18 @@ except NameError:
 # ================================
 # 1. Paramètres de la grille
 # ================================
-N_cel = 15
+N_cel = 31
 Nx, Ny = N_cel, N_cel
 dx = dy = 1.0
 alpha = 1.0
-dt = 1.0
+dt = 0.5
 steps = 201
 
 # ================================
 # 2. Paramètres de la source
 # ================================
-source_temp = 100
-fix_source = True
+source_temp = 1000
+fix_source = False
 source_type = 'center'
 column_index = 0
 

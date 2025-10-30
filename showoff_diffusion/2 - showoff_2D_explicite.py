@@ -13,7 +13,7 @@ except NameError:
 # ================================
 # 1. Paramètres de la grille
 # ================================
-N_cell = 15
+N_cell = 5
 Nx, Ny = N_cell, N_cell
 dx = dy = 1.0
 alpha = 1
@@ -25,7 +25,7 @@ print(CFL)
 # ================================
 # 2. Paramètres de la source
 # ================================
-source_temp = 100      # température de la source
+source_temp = 50      # température de la source
 fix_source = True      # True = température constante, False = initiale seulement
 source_type = 'center'  # 'center' ou 'column'
 column_index = 0        # si 'column', quelle colonne chauffer

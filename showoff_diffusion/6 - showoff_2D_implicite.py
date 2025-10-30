@@ -15,7 +15,7 @@ except NameError:
 # ================================
 # 1. Paramètres de la grille
 # ================================
-N_cel = 15
+N_cel = 3
 Nx, Ny = N_cel, N_cel
 dx = dy = 1.0
 alpha = 1.0
@@ -25,7 +25,7 @@ steps = 201
 # ================================
 # 2. Paramètres de la source
 # ================================
-source_temp = 100
+source_temp = 40
 fix_source = True
 source_type = 'center'
 column_index = 0
@@ -168,7 +168,7 @@ if Nx<6 and Ny<6:
     )
     ax_eq.text(0, 0.6, backward_euler_eq, fontsize=16, color='black', ha='left', va='top')
     #ax_eq.text(0,0.6,r"$T_{i,j}^{t+dt} = T_{i,j}^{t} + \alpha \Delta t(...\,)$", fontsize=16, ha='left')
-    ax_eq.text(0,0.3,r"$(I - \alpha \Delta t\,L) T^{t+dt} = T^t$", fontsize=16, ha='left')
+    ax_eq.text(0,0.3,r"$T^t = (I - \alpha \Delta t\,L) T^{t+dt}$", fontsize=16, ha='left')
 
 # ================================
 # 11. Affichage dynamique du système linéaire

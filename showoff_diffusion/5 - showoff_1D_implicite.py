@@ -15,19 +15,19 @@ except NameError:
 # ================================
 # 1. Paramètres de la grille
 # ================================
-N_cel = 15
-Nx, Ny = N_cel, N_cel
+N_cel = 5
+Nx, Ny = N_cel, 1#N_cel
 dx = dy = 1.0
 alpha = 1.0
-dt = 1.0
+dt = 0.5
 steps = 201
 
 # ================================
 # 2. Paramètres de la source
 # ================================
-source_temp = 100
+source_temp = 50
 fix_source = True
-source_type = 'center'
+source_type = 'column'
 column_index = 0
 
 # ================================
@@ -138,7 +138,7 @@ else:
 im = ax.imshow(T0, cmap='hot', origin='lower', vmin=0, vmax=100)
 cbar = plt.colorbar(im, ax=ax)
 cbar.set_label("Température")
-ax.set_title("Diffusion 2D - schéma implicite (Backward Euler)")
+ax.set_title("Diffusion 1D - schéma implicite (Backward Euler)")
 time_text = ax.text(0.02, 1.02, '', transform=ax.transAxes, fontsize=12, color='white',
                     bbox=dict(facecolor='black', alpha=0.5))
 text_grid = [[ax.text(j,i,'', color='white', ha='center', va='center') for j in range(Nx)] for i in range(Ny)]
@@ -157,18 +157,24 @@ if show_flux:
 if Nx<6 and Ny<6:
     ax_eq = fig.add_axes([0.60, 0.1, 0.25, 0.45])
     ax_eq.axis('off')
-    ax_eq.text(0,0.9,r"$\frac{\partial T}{\partial t} = \alpha \left(\frac{\partial^2 T}{\partial x^2} + \frac{\partial^2 T}{\partial y^2}\right)$", fontsize=16, ha='left')
-    ax_eq.text(0,0.7,r"$\frac{T_{i,j}^{t+dt}-T_{i,j}^{t}}{\Delta t} = \alpha\left(\frac{T_{i+1,j}^{t+dt}-2T_{i,j}^{t+dt}+T_{i-1,j}^{t+dt}}{\Delta x^2} + \frac{T_{i,j+1}^{t+dt}-2T_{i,j}^{t+dt}+T_{i,j-1}^{t+dt}}{\Delta y^2}\right)$", fontsize=16, ha='left')
+    ax_eq.text(0,1.0,r"$\frac{\partial T}{\partial t} = \alpha \left(\frac{\partial^2 T}{\partial x^2}\right)$", fontsize=16, ha='left')
+    ax_eq.text(0,0.8,r"$\frac{T_{i}^{t+dt}-T_{i}^{t}}{\Delta t} = \alpha\left(\frac{T_{i+1}^{t+dt}-2T_{i}^{t+dt}+T_{i-1}^{t+dt}}{\Delta x^2}\right)$", fontsize=16, ha='left')
     backward_euler_eq = (
-        r"$T_{i,j}^{t+dt} = T_{i,j}^{t} + \alpha \Delta t "
+        r"$T_{i}^{t+dt} = T_{i}^{t} + \alpha \Delta t "
         r"\left("
-        r"\frac{T_{i+1,j}^{t+dt} - 2T_{i,j}^{t+dt} + T_{i-1,j}^{t+dt}}{\Delta x^2} + "
-        r"\frac{T_{i,j+1}^{t+dt} - 2T_{i,j}^{t+dt} + T_{i,j-1}^{t+dt}}{\Delta y^2}"
+        r"\frac{T_{i+1}^{t+dt} - 2T_{i}^{t+dt} + T_{i-1}^{t+dt}}{\Delta x^2}"
         r"\right)$"
     )
-    ax_eq.text(0, 0.6, backward_euler_eq, fontsize=16, color='black', ha='left', va='top')
+    ax_eq.text(0, 0.7, backward_euler_eq, fontsize=16, color='black', ha='left', va='top')
     #ax_eq.text(0,0.6,r"$T_{i,j}^{t+dt} = T_{i,j}^{t} + \alpha \Delta t(...\,)$", fontsize=16, ha='left')
-    ax_eq.text(0,0.3,r"$(I - \alpha \Delta t\,L) T^{t+dt} = T^t$", fontsize=16, ha='left')
+    backward_euler_eq = (
+        r"$T_{i}^{t} = T_{i}^{t+dt} + \alpha \Delta t "
+        r"\left("
+        r"\frac{T_{i+1}^{t+dt} - 2T_{i}^{t+dt} + T_{i-1}^{t+dt}}{\Delta x^2}"
+        r"\right)$"
+    )
+    ax_eq.text(0, 0.5, backward_euler_eq, fontsize=16, color='black', ha='left', va='top')
+    ax_eq.text(0,0.2,r"$T^t = (I - \alpha \Delta t\,L) T^{t+dt}$", fontsize=16, ha='left')
 
 # ================================
 # 11. Affichage dynamique du système linéaire
@@ -182,7 +188,7 @@ if Nx<6 and Ny<6:
         A = (sparse.identity(N) - alpha*dt*Lap).toarray()
         A_str = np.array2string(A, formatter={'float_kind':lambda x:f"{x:5.0f}"})
         b_str = np.array2string(Tn.ravel(), formatter={'float_kind':lambda x:f"{x:5.1f}"})
-        system_text.set_text(r"$A\,T^{t+Δt}=T^{t}$" + "\n\n" + f"A = (I - αΔt L)\n{A_str}\n\n$T^t$ = {b_str}")
+        system_text.set_text(r"$A\,T^{t+Δt}=T^{t}$" + "\n" + f"\nA = (I - αΔt L)\n{A_str}\n\n$T^t$ = {b_str}")
 
 # ================================
 # 12. Fonction update_plot
